@@ -1,0 +1,23 @@
+version: '3'
+services:
+  api:
+    build: ./server
+    ports:
+      - '4000:4000'
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/taskforge
+      - JWT_ACCESS_SECRET=changeme
+      - JWT_REFRESH_SECRET=changeme2
+      - CLIENT_URL=http://localhost:5173
+    volumes:
+      - ./server:/app
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:6
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
